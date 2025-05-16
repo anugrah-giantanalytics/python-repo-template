@@ -1,0 +1,60 @@
+[project]
+name = "python-microservice-template"
+version = "0.1.0"
+description = "A production-ready Python template for building scalable microservices"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.4.2",
+    "pydantic-settings>=2.0.3",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.25.0",
+    "sqlalchemy>=2.0.23",
+    "alembic>=1.12.1",
+    "prometheus-client>=0.17.1",
+    "structlog>=23.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.1",
+    "black>=23.10.1",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.6.1",
+    "pre-commit>=3.5.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 100
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=app --cov-report=term-missing"
+asyncio_mode = "auto"

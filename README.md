@@ -1,4 +1,4 @@
-# Python Microservice Template
+# Python Project Template
 
 A production-ready Python template for building scalable microservices. This template is designed to be used as a starting point for various services including Middleware, Indexer, Upsertion, and Retriever components.
 

@@ -1,5 +1,5 @@
 [project]
-name = "python-microservice-template"
+name = "python-template"
 version = "0.1.0"
 description = "A production-ready Python template for building scalable microservices"
 authors = [{ name = "Your Name", email = "your.email@example.com" }]

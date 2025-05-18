@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.v1 import router as api_v1_router
 from app.core.config import settings
 from app.core.logging import setup_logging
 
@@ -26,11 +27,18 @@ if settings.ENABLE_CORS:
         allow_headers=["*"],
     )
 
+
+# Root endpoint
+@app.get("/")
+async def root():
+    return {"status": "healthy"}
+
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
-# Import and include routers
-# from app.api.v1 import router as api_v1_router
-# app.include_router(api_v1_router, prefix=settings.API_PREFIX) 
+
+# Include routers
+app.include_router(api_v1_router, prefix=settings.API_PREFIX)

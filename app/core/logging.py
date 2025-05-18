@@ -10,7 +10,7 @@ from app.core.config import settings
 
 def setup_logging() -> None:
     """Configure structured logging for the application."""
-    
+
     # Pre-chain processors
     pre_chain = [
         structlog.contextvars.merge_contextvars,
@@ -26,7 +26,8 @@ def setup_logging() -> None:
 
     # Configure structlog
     structlog.configure(
-        processors=pre_chain + [
+        processors=pre_chain
+        + [
             structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
@@ -36,7 +37,9 @@ def setup_logging() -> None:
 
     # Create formatter
     formatter = ProcessorFormatter(
-        processor=structlog.dev.ConsoleRenderer() if settings.DEBUG else structlog.processors.JSONRenderer(),
+        processor=structlog.dev.ConsoleRenderer()
+        if settings.DEBUG
+        else structlog.processors.JSONRenderer(),
         foreign_pre_chain=pre_chain,
     )
 
@@ -59,4 +62,4 @@ def setup_logging() -> None:
 
 def get_logger(*args: Any, **kwargs: Any) -> structlog.BoundLogger:
     """Get a structured logger instance."""
-    return structlog.get_logger(*args, **kwargs) 
+    return structlog.get_logger(*args, **kwargs)

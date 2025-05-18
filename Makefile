@@ -1,32 +1,37 @@
-.PHONY: install format lint test clean docker-build docker-run
+.PHONY: install format lint test clean docker-build docker-run activate
 
 # Variables
 PYTHON := python3
 VENV := .venv
-UV := uv
+VENV_PYTHON := $(VENV)/bin/python
+VENV_PIP := $(VENV)/bin/pip
 
 # Docker variables
 IMAGE_NAME := python-microservice
 IMAGE_TAG := latest
 
 install:
-	$(UV) venv
-	$(UV) pip install -e ".[dev]"
-	$(UV) pip install pre-commit
-	pre-commit install
+	$(PYTHON) -m venv $(VENV)
+	$(VENV_PIP) install -e ".[dev]"
+	$(VENV_PIP) install pre-commit
+	$(VENV)/bin/pre-commit install
+
+activate:
+	@echo "To activate the virtual environment, run:"
+	@echo "source $(VENV)/bin/activate"
 
 format:
-	black app tests
-	isort app tests
+	$(VENV_PYTHON) -m black app tests
+	$(VENV_PYTHON) -m isort app tests
 
 lint:
-	flake8 app tests
-	mypy app tests
-	black --check app tests
-	isort --check-only app tests
+	$(VENV_PYTHON) -m flake8 app tests
+	$(VENV_PYTHON) -m mypy app tests
+	$(VENV_PYTHON) -m black --check app tests
+	$(VENV_PYTHON) -m isort --check-only app tests
 
 test:
-	pytest
+	$(VENV_PYTHON) -m pytest
 
 clean:
 	rm -rf $(VENV)
@@ -49,4 +54,4 @@ docker-run:
 	docker run -p 8000:8000 --env-file .env $(IMAGE_NAME):$(IMAGE_TAG)
 
 run:
-	uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 
+	$(VENV_PYTHON) -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000

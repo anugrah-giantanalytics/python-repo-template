@@ -11,3 +11,4 @@ def test_example_endpoint():
     response = client.get("/api/v1/example/example")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello from the example endpoint!"} 
+print("TESTING SSH")

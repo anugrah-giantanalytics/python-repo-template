@@ -26,11 +26,14 @@ if settings.ENABLE_CORS:
         allow_headers=["*"],
     )
 
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
+
 # Import and include routers
-# from app.api.v1 import router as api_v1_router
-# app.include_router(api_v1_router, prefix=settings.API_PREFIX) 
+from app.api.v1 import router as api_v1_router
+
+app.include_router(api_v1_router, prefix=settings.API_PREFIX)

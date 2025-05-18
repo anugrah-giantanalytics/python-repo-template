@@ -3,18 +3,16 @@ FROM python:3.9-slim as builder
 
 WORKDIR /app
 
-# Install build dependencies and uv
+# Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -LsSf https://astral.sh/uv/install.sh | sh
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy project files
 COPY pyproject.toml README.md ./
 
-# Install dependencies using uv
-RUN uv pip install --no-cache .
+# Install dependencies
+RUN pip install --no-cache-dir .
 
 # Runtime stage
 FROM python:3.9-slim
@@ -41,4 +39,4 @@ ENV PYTHONUNBUFFERED=1 \
 EXPOSE ${PORT}
 
 # Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] 
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

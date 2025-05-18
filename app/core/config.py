@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from pydantic import AnyHttpUrl, PostgresDsn, RedisDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database Settings
-    DATABASE_URL: PostgresDsn | None = None
+    DATABASE_URL: Union[PostgresDsn, None] = None
 
     # Security Settings
     SECRET_KEY: str = "your-secret-key-here"
@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     API_PREFIX: str = f"/api/{API_VERSION}"
 
     # External Services
-    REDIS_URL: RedisDsn | None = None
-    ELASTICSEARCH_URL: AnyHttpUrl | None = None
+    REDIS_URL: Union[RedisDsn, None] = None
+    ELASTICSEARCH_URL: Union[AnyHttpUrl, None] = None
 
     # Feature Flags
     ENABLE_DOCS: bool = True
@@ -42,4 +42,4 @@ class Settings(BaseSettings):
     )
 
 
-settings = Settings() 
+settings = Settings()
